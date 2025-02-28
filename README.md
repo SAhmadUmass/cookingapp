@@ -1,50 +1,62 @@
-# Welcome to your Expo app 👋
+# CookingApp
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native mobile application that helps users learn new recipes from YouTube cooking videos using AI technology.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Home Screen**: Welcoming interface that explains the app's functionality
+- **YouTube Input**: Clean interface to paste YouTube cooking video links
+- **Recipe Chat**: Conversational interface to discuss and learn about recipes
 
-   ```bash
-   npm install
-   ```
+## Technology Stack
 
-2. Start the app
+- React Native with Expo
+- LangChain.js for AI integration
+- YouTube transcription capabilities
+- Gemini for AI processing
+- Whisper for voice interaction
 
-   ```bash
-    npx expo start
-   ```
+## Planned Implementation Steps
 
-In the output, you'll find options to open the app in a
+### Phase 1: Basic UI (Completed)
+- ✅ Home screen with introduction
+- ✅ YouTube link input with validation
+- ✅ Basic navigation between screens
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Phase 2: LangChain Integration
+- [ ] Install LangChain and related dependencies
+- [ ] Implement YouTube transcript extraction using `youtube-transcript` and `youtubei.js`
+- [ ] Process video content using LangChain Expression Language (LCEL)
+- [ ] Connect to AI model for analysis
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+```javascript
+// Example of planned LangChain implementation
+import { YoutubeLoader } from "langchain/document_loaders/web/youtube";
 
-## Get a fresh project
+const loader = YoutubeLoader.createFromUrl(youtubeUrl, {
+  language: "en",
+  addVideoInfo: true,
+});
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+const docs = await loader.load();
+// Process with LangChain
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Phase 3: Chat Interface
+- [ ] Develop interactive chat UI
+- [ ] Implement Whisper for voice interaction
+- [ ] Create conversational model for recipe Q&A
 
-## Learn more
+## Setup and Installation
 
-To learn more about developing your project with Expo, look at the following resources:
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Run the application: `npm start`
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Contributing
 
-## Join the community
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-Join our community of developers creating universal apps.
+## License
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is licensed under the MIT License - see the LICENSE file for details.
