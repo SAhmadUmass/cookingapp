@@ -38,7 +38,8 @@ async function testGeminiAPI() {
     // Initialize the Gemini model
     const model = new ChatGoogleGenerativeAI({
       apiKey: apiKey,
-      modelName: "gemini-pro",
+      modelName: "gemini-1.5-pro",
+      maxOutputTokens: 2048,
     });
     
     // Test simple prompt

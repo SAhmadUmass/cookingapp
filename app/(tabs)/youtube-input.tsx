@@ -1,5 +1,3 @@
-/// <reference types="@env" />
-
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, Pressable, ActivityIndicator, Keyboard, View, Image, Alert } from 'react-native';
 import { router } from 'expo-router';
@@ -9,14 +7,14 @@ import { YoutubeTranscript } from "youtube-transcript";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
-// Try to import API key, but provide fallback if @env isn't available
-let GOOGLE_API_KEY = '';
-try {
-  // Dynamic import to prevent crash if @env not configured
-  GOOGLE_API_KEY = require('@env').GOOGLE_API_KEY;
-} catch (error) {
-  console.warn('Environment variables not loaded. API key will need to be entered manually.');
-}
+// Import from our config file instead of using @env
+import Config from '@/config';
+
+// Initialize API key from config
+let GOOGLE_API_KEY = Config.GOOGLE_API_KEY || '';
+
+// Log API key status for debugging
+console.log('API Key present:', GOOGLE_API_KEY ? 'YES' : 'NO');
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -103,7 +101,8 @@ export default function YouTubeInputScreen() {
       setProcessingStatus('Analyzing with Gemini...');
       const model = new ChatGoogleGenerativeAI({
         apiKey: apiKey,
-        modelName: "gemini-pro",
+        modelName: "gemini-1.5-pro",
+        maxOutputTokens: 2048,
       });
       
       // Basic validation to see if the transcript contains cooking-related content
