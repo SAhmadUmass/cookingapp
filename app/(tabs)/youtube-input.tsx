@@ -1,22 +1,15 @@
-/// <reference types="@env" />
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, Pressable, ActivityIndicator, Keyboard, View, Image, Alert } from 'react-native';
 import { router } from 'expo-router';
+import * as FileSystem from 'expo-file-system';
 
 // Updated LangChain and Gemini imports
 import { YoutubeTranscript } from "youtube-transcript";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 
-// Try to import API key, but provide fallback if @env isn't available
-let GOOGLE_API_KEY = '';
-try {
-  // Dynamic import to prevent crash if @env not configured
-  GOOGLE_API_KEY = require('@env').GOOGLE_API_KEY;
-} catch (error) {
-  console.warn('Environment variables not loaded. API key will need to be entered manually.');
-}
+// Import our environment utility
+import { initEnv, getEnv } from '../../utils/env';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -43,10 +36,29 @@ export default function YouTubeInputScreen() {
   const [error, setError] = useState('');
   const [processingStatus, setProcessingStatus] = useState('');
   const [manualApiKey, setManualApiKey] = useState('');
-  const [showApiKeyInput, setShowApiKeyInput] = useState(!GOOGLE_API_KEY);
+  const [apiKey, setApiKey] = useState('');
+  const [showApiKeyInput, setShowApiKeyInput] = useState(true);
+
+  // Initialize environment variables on component mount
+  useEffect(() => {
+    const loadEnvironment = async () => {
+      await initEnv();
+      const envApiKey = getEnv('GOOGLE_API_KEY', '');
+      setApiKey(envApiKey);
+      setShowApiKeyInput(!envApiKey);
+      
+      if (envApiKey) {
+        console.log('Successfully loaded API key from environment');
+      } else {
+        console.warn('No API key found in environment. Manual entry required.');
+      }
+    };
+    
+    loadEnvironment();
+  }, []);
 
   // Use either the environment API key or the manually entered one
-  const getApiKey = () => manualApiKey || GOOGLE_API_KEY || '';
+  const getApiKey = () => manualApiKey || apiKey || '';
 
   const handlePaste = async () => {
     // For now just show a placeholder message since we don't have expo-clipboard
