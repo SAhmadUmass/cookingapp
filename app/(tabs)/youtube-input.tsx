@@ -202,7 +202,8 @@ export default function YouTubeInputScreen() {
                   params: { 
                     videoUrl: youtubeLink,
                     videoTitle: result.videoInfo?.title || 'YouTube Video',
-                    hasTranscript: 'true'
+                    hasTranscript: 'true',
+                    transcript: result.transcript
                   }
                 });
                 
@@ -222,7 +223,8 @@ export default function YouTubeInputScreen() {
         params: { 
           videoUrl: youtubeLink,
           videoTitle: result.videoInfo?.title || 'Cooking Video',
-          hasTranscript: 'true'
+          hasTranscript: 'true',
+          transcript: result.transcript
         }
       });
       

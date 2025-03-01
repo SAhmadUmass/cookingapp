@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
@@ -9,12 +9,19 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
+  // We know this will always return 'light', but to keep the code consistent
   const colorScheme = useColorScheme();
+
+  // Force tab update on mount
+  useEffect(() => {
+    console.log("Tab layout initialized");
+  }, []);
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors['light'].tint, // Always use light theme colors
+        tabBarInactiveTintColor: Colors['light'].tabIconDefault, // Set inactive color explicitly
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
@@ -22,8 +29,11 @@ export default function TabLayout() {
           ios: {
             // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
+            backgroundColor: 'transparent', // Ensure no background color gets in the way
           },
-          default: {},
+          default: {
+            backgroundColor: '#ffffff', // Force light background for Android/web
+          },
         }),
       }}>
       <Tabs.Screen
