@@ -33,6 +33,11 @@ interface Message {
   content: string;
 }
 
+// Mark this file as a non-tab screen
+export const unstable_settings = {
+  isTabScreen: false,
+};
+
 export default function ChatScreen() {
   // Get the YouTube URL and other parameters from the route parameters
   const { videoUrl, videoTitle, hasTranscript, transcript } = useLocalSearchParams();

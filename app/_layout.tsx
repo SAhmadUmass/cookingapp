@@ -24,6 +24,14 @@ const ForcedLightTheme = {
   },
 };
 
+// Define which screens should be included in navigation and which should be hidden
+export const unstable_settings = {
+  // Ensure these routes are handled correctly
+  initialRouteName: '(tabs)',
+  // Don't include chat in the tab navigation
+  excludeFromTabBar: ['chat'],
+};
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -45,6 +53,7 @@ export default function RootLayout() {
     <ThemeProvider value={ForcedLightTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="chat" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="dark" />
