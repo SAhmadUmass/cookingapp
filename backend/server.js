@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Define routes
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the API' });
+  res.json({ message: 'Welcome to the cooking app' });
 });
 
 // API routes
